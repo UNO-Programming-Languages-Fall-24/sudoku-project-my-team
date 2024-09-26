@@ -9,26 +9,18 @@
 { sudoku(X,Y,V) : V = 1..9 } = 1 :- X = 1..9, Y = 1..9.
 % achieved: generate all possible solutions for each row, column, and value
 
-:- sudoku(X,Y,V), sudoku(X',Y',V'), X = 1..9, X' = 1..9, Y = 1..9, Y' = 1..9, V = 1..9, Y != Y', X = X', V = V'.
+:- sudoku(X,Y,V), sudoku(X,Y',V'), Y = 1..9, Y' = 1..9, V = 1..9, Y != Y', V = V'.
 % achieved: in row X, make sure value V doesn't appear in two different columns (Y and Y')
 
-:- sudoku(X,Y,V), sudoku(X',Y',V'), Y = 1..9, Y' = 1..9, X = 1..9, X' = 1..9, V = 1..9, X != X', Y = Y', V = V'.
+:- sudoku(X,Y,V), sudoku(X',Y,V'), X = 1..9, X' = 1..9, V = 1..9, X != X', Y = Y', V = V'.
 % achieved: in column Y, make sure value V doesn't appear in two different rows (X and X')
 
 sudoku(X,Y,V) :- initial(X,Y,V).
 % achieved: every initial is copied and made into a sudoku object
 
-%{ subgrid(X,Y,G) : G = 1..9 } = 1 :- X = 1..9, Y = 1..9.
-% achieved: generate all subgrids combinations possible (basically same as sudoku generator)
-
-subgrid(X,Y,G) :- X = 1..9, Y = 1..9, G = 1+(((X-1)/3)*3+(Y-1)/3).
-% achieved: for coordinates X and Y, the corresponding subgrid number G is 1+(((x-1)/n)*n+(y-1)/n)
-
 :- sudoku(X,Y,V), sudoku(X',Y',V'), 1+(((X-1)/3)*3+(Y-1)/3) = 1+(((X'-1)/3)*3+(Y'-1)/3), X != X', Y' != Y, V = V'.
-% achieved: given two positions, they must be in the same subgrid, they can't be the same position, and their values can't be the same
-% using the formula to convert grid positions to corresponding subgrid, we check if they're equal 
+% achieved: given two different positions, they must be in the same subgrid, and their values can't be the same
+% using the formula to convert grid positions to corresponding subgrid, check if they're equal
 
-% end of solution
 
 #show sudoku/3.
-%#show subgrid/3.

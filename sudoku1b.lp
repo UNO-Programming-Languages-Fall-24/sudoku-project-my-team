@@ -9,10 +9,10 @@
 { sudoku(X,Y,V) : V = 1..4 } = 1 :- X = 1..4, Y = 1..4.
 % achieved: generate all possible solutions for each row, column, and value
 
-:- sudoku(X,Y,V), sudoku(X',Y',V'), X = 1..4, X' = 1..4, Y = 1..4, Y' = 1..4, V = 1..4, Y != Y', X = X', V = V'.
+:- sudoku(X,Y,V), sudoku(X,Y',V'), Y = 1..4, Y' = 1..4, V = 1..4, Y != Y', V = V'.
 % achieved: in row X, make sure value V doesn't appear in two different columns (Y and Y')
 
-:- sudoku(X,Y,V), sudoku(X',Y',V'), Y = 1..4, Y' = 1..4, X = 1..4, X' = 1..4, V = 1..4, X != X', Y = Y', V = V'.
+:- sudoku(X,Y,V), sudoku(X',Y,V'), X = 1..4, X' = 1..4, V = 1..4, X != X', V = V'.
 % achieved: in column Y, make sure value V doesn't appear in two different rows (X and X')
 
 sudoku(X,Y,V) :- initial(X,Y,V).
@@ -22,16 +22,16 @@ sudoku(X,Y,V) :- initial(X,Y,V).
 % achieved: generate all subgrids combinations possible (basically same as sudoku generator)
 
 :- subgrid(X,Y,G), X <= 2, Y <= 2, G != 1.
-% achieved: eliminate all solutions in first quadrant with G = 1.
+% achieved: eliminate all solutions in first quadrant with G != 1.
 
 :- subgrid(X,Y,G), X <= 2, Y > 2, G != 2.
-% achieved: eliminate all solutions in second quadrant with G = 2.
+% achieved: eliminate all solutions in second quadrant with G != 2.
 
 :- subgrid(X,Y,G), X > 2, Y <= 2, G != 3.
-% achieved: eliminate all solutions in third quadrant with G = 3.
+% achieved: eliminate all solutions in third quadrant with G != 3.
 
 :- subgrid(X,Y,G), X > 2, Y > 2, G != 4.
-% achieved: eliminate all solutions in fourth quadrant with G = 4.
+% achieved: eliminate all solutions in fourth quadrant with G != 4.
 
 % end of solution
 
